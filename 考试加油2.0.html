@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>姐姐考试加油</title>
+  <style>
+    /* 全屏背景渐变效果 */
+    body {
+      background: linear-gradient(to bottom, #000000, #333333);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      position: relative; /* 添加相对定位以支持绝对定位按钮 */
+    }
+    
+    /* 音乐按钮样式 */
+    #music-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    /* 倒计时时钟样式 */
+    #countdown-label {
+      font-size: 24px;
+    }
+    
+    #countdown {
+      font-size: 48px;
+    }
+    
+    /* 祝福语句动画效果 */
+    #message {
+      opacity: 0;
+      animation: fade-in 2s forwards;
+    }
+    
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    /* 输入框和按钮样式 */
+    #input-box {
+      margin-top: 20px;
+    }
+    
+    #calculate-btn {
+      margin-top: 10px;
+      padding: 5px 10px;
+    }
+ 
+    /* 下雪背景效果 */
+    #snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+ 
+    .snowflake {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      opacity: 0.8;
+      pointer-events: none;
+      animation: snowfall linear infinite;
+    }
+ 
+    @keyframes snowfall {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(100vh);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 音乐播放器 -->
+  <audio id="bgm" loop>
+    <source src="暖暖.mp3" type="audio/mpeg">
+  </audio>
+  <button id="music-btn">🎵 播放音乐</button>
+  
+  <!-- 距离考教资还剩 -->
+  <div id="countdown-label">距离考教资还剩</div>
+  
+  <!-- 倒计时时钟 -->
+  <div id="countdown"></div>
+  
+  <!-- 祝福语句 -->
+  <div id="message">
+    Best wishes!
+  </div>
+  
+  <!-- 输入框和计算按钮 -->
+  <div id="input-box">
+    <input type="text" id="college-input" placeholder="">
+    <button id="calculate-btn">计算</button>
+  </div>
+  
+  <!-- 下雪背景效果 -->
+  <div id="snow-container"></div>
+  
+  <script>
+    // 音乐控制
+    const bgm = document.getElementById('bgm');
+    let isPlaying = false;
+  
+    document.getElementById('music-btn').addEventListener('click', () => {
+      if(isPlaying) {
+        bgm.pause();
+      } else {
+        bgm.play().catch(() => alert('请点击页面任意位置后重试'));
+      }
+      isPlaying = !isPlaying;
+    });
+</script>
+
+  <script>
+    // 更新倒计时时钟
+    function updateCountdown() {
+      var now = new Date();
+      var targetDate = new Date("2025-3-8 9:00");
+      var timeDiff = targetDate.getTime() - now.getTime();
+      
+      var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+      
+      var countdownLabelElement = document.getElementById("countdown-label");
+      countdownLabelElement.textContent = "距离考教资还剩";
+      
+      var countdownElement = document.getElementById("countdown");
+      countdownElement.textContent = days + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
+    }
+    
+    // 每秒钟更新倒计时时钟
+    setInterval(updateCountdown, 1000);
+    
+    // 设置考中几率为100%
+    document.getElementById("calculate-btn").addEventListener("click", function() {
+      var collegeInput = document.getElementById("college-input").value;
+      var resultElement = document.createElement("div");
+      resultElement.textContent = "姐姐考过 " + collegeInput + " 的概率为 100%！";
+      resultElement.style.color = 'green';
+      document.body.appendChild(resultElement);
+    });
+ 
+    // 下雪背景效果
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.style.left = Math.random() * window.innerWidth + 'px';
+      snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+      snowflake.style.opacity = Math.random();
+      snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+ 
+      const randomColor = getRandomColor();
+      snowflake.style.backgroundColor = randomColor;
+ 
+     const slogans = [
+  "姐姐，你是最棒的！教资只是小菜一碟，冲就完事儿！",
+  "人生没有白走的路，每一步都算数",
+  "备考辛苦啦！坚持就是胜利，加油，姐姐！",
+  "考试加油 成功上岸",
+  "别怕，姐姐！你努力的样子超酷，胜利就在眼前！",
+  "姐姐，你已经很棒了！最后冲刺，冲就完事儿！",
+  "姐姐，别累着自己，调整好状态，稳稳过！",
+  "三月好事正酿，愿大家都如愿以偿"
+]; // Add your slogans here
+      snowflake.innerHTML = slogans[Math.floor(Math.random() * slogans.length)];
+ 
+      return snowflake;
+    }
+ 
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+ 
+    function snowfall() {
+      const snowContainer = document.getElementById('snow-container');
+      const numSnowflakes = 50; // Adjust the number of snowflakes here
+ 
+      for (let i = 0; i < numSnowflakes; i++) {
+        const snowflake = createSnowflake();
+        snowContainer.appendChild(snowflake);
+      }
+    }
+ 
+    snowfall();
+  </script>
+</body>
+</html>
